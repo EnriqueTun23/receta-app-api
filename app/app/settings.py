@@ -37,6 +37,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    #apps
+    'core.apps.CoreConfig',
 ]
 
 MIDDLEWARE = [
@@ -118,3 +120,6 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/2.1/howto/static-files/
 
 STATIC_URL = '/static/'
+
+#Se agrega para ya tener un modelo default para agregar usuarios
+AUTH_USER_MODEL = 'core.Usuario'
