@@ -2,7 +2,7 @@ from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 from django.utils.translation import gettext as _
 
-from .models import Usuario, Tag, Ingrediente
+from .models import Usuario, Tag, Ingrediente, Receta
 
 # Register your models here.
 
@@ -28,3 +28,4 @@ class UserAdmin(BaseUserAdmin):
 admin.site.register(Usuario, UserAdmin)
 admin.site.register(Tag)
 admin.site.register(Ingrediente)
+admin.site.register(Receta)
