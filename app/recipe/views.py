@@ -5,39 +5,55 @@ from rest_framework.permissions import IsAuthenticated
 from core.models import Tag, Ingrediente
 from .serializers import TagSerializer, IngredienteSerializer
 
-class TagViewSet(viewsets.GenericViewSet, 
-                mixins.ListModelMixin,
-                mixins.CreateModelMixin):
-    """Manage tags in the database"""
+class BaseRecipeAttrViewSet(viewsets.GenericViewSet,
+                            mixins.ListModelMixin,
+                            mixins.CreateModelMixin):
+    """Base viewset for user owned recipe attributes"""
     authentication_classes = (TokenAuthentication,)
     permission_classes = (IsAuthenticated,)
-    queryset = Tag.objects.all()
-    serializer_class = TagSerializer
 
     def get_queryset(self):
         """return objects for the current authenticated user only"""
         return self.queryset.filter(user=self.request.user).order_by('-name')
+
     
     def perform_create(self, serializer):
-        """Create a new tag"""
-
+        """Create a new object"""
         serializer.save(user=self.request.user)
 
-class IngredienteViewSet(viewsets.GenericViewSet, 
-                         mixins.ListModelMixin,
-                         mixins.CreateModelMixin):
+
+class TagViewSet(BaseRecipeAttrViewSet):
+    """Manage tags in the database"""
+    # authentication_classes = (TokenAuthentication,)
+    # permission_classes = (IsAuthenticated,)
+    queryset = Tag.objects.all()
+    serializer_class = TagSerializer
+
+    # def get_queryset(self):
+    #     """return objects for the current authenticated user only"""
+    #     return self.queryset.filter(user=self.request.user).order_by('-name')
+    
+    # def perform_create(self, serializer):
+    #     """Create a new tag"""
+
+    #     serializer.save(user=self.request.user)
+
+# class IngredienteViewSet(viewsets.GenericViewSet, 
+#                          mixins.ListModelMixin,
+#                          mixins.CreateModelMixin):
+class IngredienteViewSet(BaseRecipeAttrViewSet):
     """Manage ingrediebntes in the database"""
 
-    authentication_classes = (TokenAuthentication,)
-    permission_classes = (IsAuthenticated,)
+    # authentication_classes = (TokenAuthentication,)
+    # permission_classes = (IsAuthenticated,)
     queryset = Ingrediente.objects.all()
     serializer_class = IngredienteSerializer
 
 
-    def get_queryset(self):
-        """return objects for the current authenticated user"""
-        return self.queryset.filter(user=self.request.user).order_by('-name')
+    # def get_queryset(self):
+    #     """return objects for the current authenticated user"""
+    #     return self.queryset.filter(user=self.request.user).order_by('-name')
     
-    def perform_create(self, serializer):
-        """Create a new ingrediente"""
-        serializer.save(user=self.request.user)
+    # def perform_create(self, serializer):
+    #     """Create a new ingrediente"""
+    #     serializer.save(user=self.request.user)
